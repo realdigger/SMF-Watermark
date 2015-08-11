@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	This is an example modification file for SMF packages.
+
+	ATTENTION: If you are trying to install this manually, you should try
+	the package manager.  If it will not work for you, please take a look
+	at the following for information on this format:
+		http://mods.simplemachines.org/docs/manual-install.php
+
+================================================================================
+
+	Modification files can be used to modify files so that they do what
+	your package needs them to do to work properly.
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+
+	<id>digger:Watermark.light</id>
+	<version>1.0</version>
+	
+	<file name="$languagedir/Modifications.russian.php" error="skip">
+
+		<operation>
+
+			<search position="end" />
+  
+  		<add><![CDATA[ 
+// * Watermark mod by Digger
+$txt['watermark'] = 'Водяной знак';
+$txt['watermarkEnabled'] = 'Включить водяной знак. Логотип будет накладываться на файлы формата JPG, GIF, PNG. ';
+$txt['watermarkUserEnabled'] = 'Разрешить пользователям при загрузке изображений выбирать, накладывать водяной знак или нет (форма создания сообщения - дополнительные опции - наложить водяной знак).  ';
+$txt['watermarkUserCheck'] = 'По умолчанию выбрано';
+$txt['watermarkUserChecked'] = 'Накладывать';
+$txt['watermarkUserUnchecked'] = 'Не накладывать';
+$txt['watermarkImage'] = 'Имя файла с логотипом водяного знака. Поддерживаются форматы GIF и PNG.<br />Файлы с логотипами находятся в каталоге /Watermark/Logo<br />В каталоге /Watermark находится демо-файл watermark_demo.jpg, который вы можете заменить на свой с таким же именем.';
+$txt['watermarkTransparency'] = 'Непрозрачность водяного знака формата GIF при наложении (0-100).';
+$txt['watermarkJpegQuality'] = 'Качество Jpeg (0-100). Чем больше, тем лучше качество, но больше размер JPG файла после наложения водяного знака. Оптимально 75 - 85.';
+$txt['watermarkPngCompression'] = 'Сжатие Png (0-9). Чем меньше, тем лучше качество, но больше размер PNG файла после наложения водяного знака. Оптимально 5 - 6';
+$txt['watermarkMaxHeight'] = 'Обрабатывать изображения у которых Высота в пикселах больше';
+$txt['watermarkMaxWidth'] = 'Обрабатывать изображения у которых Ширина в пикселах больше';
+$txt['watermarkBorder'] = 'Расстояние от водяного знака до границ изображения, в пикселах';
+$txt['watermarkPosition'] = 'Расположение логотипа на изображении';
+$txt['watermarkPositionTopLeft'] = 'Левый верхний угол';
+$txt['watermarkPositionTopRight'] = 'Правый верхний угол';
+$txt['watermarkPositionBottomLeft'] = 'Левый нижний угол';
+$txt['watermarkPositionBottomRight'] = 'Правый нижний угол';
+$txt['watermarkPositionCenter'] = 'По центру';
+$txt['watermarkLogoTitle'] = 'Логотип';
+$txt['watermarkTestTitle'] = 'Образец JPG';
+$txt['watermarkTestOriginal'] = 'Исходный размер: ';
+$txt['watermarkTestWatermarked'] = 'Размер с логотипом: ';
+$txt['watermarkTestText'] = 'Если картинка не обновилась после изменения настроек, обновите страницу в своем браузере.';
+$txt['watermarkBackupEnabled'] = 'Сохранять копии оригинальных файлов при наложении водяных знаков. Копии будут сохранятся в файлы вида имя_файла_orig.';
+$txt['maintain_watermark'] = 'Промаркировать водяным знаком все непомеченные вложения.';
+$txt['maintain_watermark_restore'] = 'Восстановить исходное состояние всех помеченных вложений (если была включена опция сохранения копий оригиналов).';
+$txt['watermarkUserCheckbox'] = 'Наложить водяной знак на вложенные изображения.';
+// Watermark Mod *
+]]></add>
+  
+    </operation>
+
+  </file>  
+  
+</modification>

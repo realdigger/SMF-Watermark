@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	This is an example modification file for SMF packages.
+
+	ATTENTION: If you are trying to install this manually, you should try
+	the package manager.  If it will not work for you, please take a look
+	at the following for information on this format:
+		http://mods.simplemachines.org/docs/manual-install.php
+
+================================================================================
+
+	Modification files can be used to modify files so that they do what
+	your package needs them to do to work properly.
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+
+	<id>digger:Watermark.light</id>
+	<version>1.5</version>
+
+	<file name="$sourcedir/ModSettings.php">
+
+		<operation>
+
+			<search position="after"><![CDATA[// By default do the basic settings.]]></search>
+
+			<add><![CDATA[
+   // * Watermark Mod by Digger
+  $subActions['watermark'] = 'ModifyWatermarkSettings';
+  // Watermark Mod by Digger *
+]]></add>
+
+    </operation>
+
+    <operation>
+
+			<search position="after"><![CDATA[// Select the right tab based on the sub action.]]></search>
+
+			<add><![CDATA[
+  // * Watermark Mod by Digger
+  $context['admin_tabs']['tabs']['watermark'] = array(
+				'title' =>  $txt['watermark'],
+				'href' => $scripturl . '?action=featuresettings;sa=watermark;sesc=' . $context['session_id'],
+  );
+  // Watermark Mod by Digger *
+]]></add>
+
+    </operation>
+
+    <operation>
+
+			<search position="after"><![CDATA[// Default to core (I assume)]]></search>
+
+			<add><![CDATA[
+    // * Watermark Mod by Digger
+		$subActions['watermark'] = 'ModifyWatermarkSettings';
+    // Watermark Mod by Digger *
+]]></add>
+
+    </operation>
+
+        <operation>
+
+			<search position="end" />
+
+			<add><![CDATA[
+// * Watermark Mod by Digger
+function ModifyWatermarkSettings()
+{
+	global $db_prefix, $boarddir, $scripturl, $context, $settings, $sc, $sourcedir, $modSettings, $txt;
+  include_once($sourcedir.'/Subs-Watermark.light.php');
+
+  // get list of files in logo dir
+  if ($handle = @opendir($boarddir.'/Watermark/Logo'))
+  {
+    while (false !== ($file = @readdir($handle))) {
+      if ($file != "." && $file != "..")
+        {
+          $logos[$file] = $file;
+        }
+    }
+    closedir($handle);
+  }
+
+	$config_vars = array(
+			array('check', 'watermarkEnabled'),
+      '',
+ 			array('select', 'watermarkImage', $logos),
+      '',
+      array('int', 'watermarkMaxHeight'),
+      array('int', 'watermarkMaxWidth'),
+			array('int', 'watermarkTransparency'),
+			array('int', 'watermarkJpegQuality'),
+      '',
+      array('int', 'watermarkBorder'),
+      array('select', 'watermarkPosition', array(&$txt['watermarkPositionTopLeft'], &$txt['watermarkPositionTopRight'], &$txt['watermarkPositionBottomLeft'], &$txt['watermarkPositionBottomRight'], &$txt['watermarkPositionCenter'])),
+      '',
+      $txt['watermarkLogoTitle'] . '<br /><img src="Watermark/Logo/' . $modSettings['watermarkImage'] .'" alt="" />', '', $txt['watermarkTestTitle'] . '<br /><img src="Watermark/watermark_demo_2.jpg?' . time() . '" alt="" /><br /><br />' . $txt['watermarkTestText'],
+      '');
+
+	if (isset($_GET['save']))
+	{
+		saveDBSettings($config_vars);
+		watermark($boarddir . '/Watermark/watermark_demo.jpg', $boarddir . '/Watermark/watermark_demo_2.jpg');
+		redirectexit('action=featuresettings;sa=watermark');
+	}
+
+	$context['post_url'] = $scripturl . '?action=featuresettings2;save;sa=watermark';
+	$context['settings_title'] = $txt['watermark'];
+	prepareDBSettingContext($config_vars);
+
+}
+// Watermark Mod by Digger *
+]]></add>
+
+    </operation>
+
+  </file>
+
+</modification>
