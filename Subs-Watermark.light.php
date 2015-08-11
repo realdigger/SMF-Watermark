@@ -107,7 +107,7 @@ function watermark($imagesource, $imagedest = NULL)
 
     if ($watermark_type == 1) imagecopymerge($image, $watermark, $logoPositionX, $logoPositionY, 0, 0, $watermarkwidth, $watermarkheight, $modSettings['watermarkTransparency']);
     if ($watermark_type == 3) {
-        ImageAlphaBlending($image, true);
+        imageSaveAlpha($image, true); // GeorG's fix
         imagecopy($image, $watermark, $logoPositionX, $logoPositionY, 0, 0, $watermarkwidth, $watermarkheight);
     }
 
