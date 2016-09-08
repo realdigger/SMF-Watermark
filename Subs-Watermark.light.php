@@ -10,8 +10,9 @@
  * Support, News, Updates at:  http://www.simplemachines.ru                        *
  ***********************************************************************************/
 
-if (!defined('SMF'))
+if (!defined('SMF')) {
     die('Hacking attempt...');
+}
 
 function detect_ani_gif($filename)
 {
@@ -21,12 +22,14 @@ function detect_ani_gif($filename)
     while ($count < 2) # There is no point in continuing after we find a 2nd frame
     {
         $where1 = strpos($filecontents, "\x00\x21\xF9\x04", $str_loc);
-        if ($where1 === FALSE) break;
-        else {
+        if ($where1 === false) {
+            break;
+        } else {
             $str_loc = $where1 + 1;
             $where2 = strpos($filecontents, "\x00\x2C", $str_loc);
-            if ($where2 === FALSE) break;
-            else {
+            if ($where2 === false) {
+                break;
+            } else {
                 if ($where1 + 8 == $where2) {
                     $count++;
                 }
@@ -34,56 +37,90 @@ function detect_ani_gif($filename)
             }
         }
     }
-    if ($count > 1) return true;
-    else return false;
+    if ($count > 1) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-function watermark($imagesource, $imagedest = NULL)
+function watermark($imagesource, $imagedest = null)
 {
     global $modSettings, $boarddir;
     $result = false;
     $imagelogo = $boarddir . '/Watermark/Logo/' . $modSettings['watermarkImage'];
 
     // make some testing
-    if (!file_exists($imagesource)) return false;
-    if (!file_exists($imagelogo)) return false;
+    if (!file_exists($imagesource)) {
+        return false;
+    }
+    if (!file_exists($imagelogo)) {
+        return false;
+    }
     $testGD = get_extension_funcs('gd');
-    if (empty($testGD)) return false;
+    if (empty($testGD)) {
+        return false;
+    }
 
     // get more memory for image processing
     //@ini_set('memory_limit', '128M');
 
     // load & detect image type
     $size = @getimagesize($imagesource);
-    if (empty($size)) return false;
+    if (empty($size)) {
+        return false;
+    }
     $filetype = $size[2];
-    if ($filetype == 1) $image = imagecreatefromgif($imagesource);
-    else if ($filetype == 2) $image = imagecreatefromjpeg($imagesource);
-    else if ($filetype == 3) $image = imagecreatefrompng($imagesource);
-    else return false;
+    if ($filetype == 1) {
+        $image = imagecreatefromgif($imagesource);
+    } else {
+        if ($filetype == 2) {
+            $image = imagecreatefromjpeg($imagesource);
+        } else {
+            if ($filetype == 3) {
+                $image = imagecreatefrompng($imagesource);
+            } else {
+                return false;
+            }
+        }
+    }
 
     // detect animated gif, exit if true
-    if (detect_ani_gif($imagesource)) return false;
+    if (detect_ani_gif($imagesource)) {
+        return false;
+    }
 
     // load & detect watermark image
     $watermark_test = @getimagesize($imagelogo);
-    if (empty($watermark_test)) return false;
+    if (empty($watermark_test)) {
+        return false;
+    }
     $watermark_type = $watermark_test[2];
-    if ($watermark_type == 1) $watermark = imagecreatefromgif($imagelogo);
-    if ($watermark_type == 3) $watermark = imagecreatefrompng($imagelogo);
-    if (empty($watermark)) return false;
+    if ($watermark_type == 1) {
+        $watermark = imagecreatefromgif($imagelogo);
+    }
+    if ($watermark_type == 3) {
+        $watermark = imagecreatefrompng($imagelogo);
+    }
+    if (empty($watermark)) {
+        return false;
+    }
 
     $imagewidth = imagesx($image);
     $imageheight = imagesy($image);
 
     // if image too small, skip it
-    if ($imagewidth < $modSettings['watermarkMaxWidth'] and $imageheight < $modSettings['watermarkMaxHeight']) return false;
+    if ($imagewidth < $modSettings['watermarkMaxWidth'] and $imageheight < $modSettings['watermarkMaxHeight']) {
+        return false;
+    }
 
     $watermarkwidth = imagesx($watermark);
     $watermarkheight = imagesy($watermark);
 
     // calculate logo position
-    if (!isset($modSettings['watermarkPosition'])) $modSettings['watermarkPosition'] = 3;
+    if (!isset($modSettings['watermarkPosition'])) {
+        $modSettings['watermarkPosition'] = 3;
+    }
     if ($modSettings['watermarkPosition'] == 0) {
         $logoPositionX = $modSettings['watermarkBorder'];
         $logoPositionY = $modSettings['watermarkBorder'];
@@ -105,7 +142,10 @@ function watermark($imagesource, $imagedest = NULL)
         $logoPositionY = $imageheight / 2 - $watermarkheight / 2;
     }  // Center
 
-    if ($watermark_type == 1) imagecopymerge($image, $watermark, $logoPositionX, $logoPositionY, 0, 0, $watermarkwidth, $watermarkheight, $modSettings['watermarkTransparency']);
+    if ($watermark_type == 1) {
+        imagecopymerge($image, $watermark, $logoPositionX, $logoPositionY, 0, 0, $watermarkwidth, $watermarkheight,
+            $modSettings['watermarkTransparency']);
+    }
     if ($watermark_type == 3) {
         imageSaveAlpha($image, true); // GeorG's fix
         imagecopy($image, $watermark, $logoPositionX, $logoPositionY, 0, 0, $watermarkwidth, $watermarkheight);
@@ -113,21 +153,42 @@ function watermark($imagesource, $imagedest = NULL)
 
     // save watermarked file (need check for success)
     if (!empty($imagedest)) {
-        if ($filetype == 1) if (imagegif($image, $imagedest)) $result = true;
-        if ($filetype == 2) if (imagejpeg($image, $imagedest, $modSettings['watermarkJpegQuality'])) $result = true;
-        if ($filetype == 3) if (imagepng($image, $imagedest)) $result = true;
+        if ($filetype == 1) {
+            if (imagegif($image, $imagedest)) {
+                $result = true;
+            }
+        }
+        if ($filetype == 2) {
+            if (imagejpeg($image, $imagedest, $modSettings['watermarkJpegQuality'])) {
+                $result = true;
+            }
+        }
+        if ($filetype == 3) {
+            if (imagepng($image, $imagedest)) {
+                $result = true;
+            }
+        }
     } // return watermarked image
     else {
-        if ($filetype == 1) imagegif($image);
-        if ($filetype == 2) imagejpeg($image, NULL, $modSettings['watermarkJpegQuality']);
-        if ($filetype == 3) imagepng($image);
+        if ($filetype == 1) {
+            imagegif($image);
+        }
+        if ($filetype == 2) {
+            imagejpeg($image, null, $modSettings['watermarkJpegQuality']);
+        }
+        if ($filetype == 3) {
+            imagepng($image);
+        }
     }
 
     imagedestroy($image);
     imagedestroy($watermark);
 
-    if ($result) return true;
-    else return false;
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 ?>
