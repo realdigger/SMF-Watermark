@@ -1,19 +1,25 @@
 <?php
-/**********************************************************************************
- * Subs-Watermark.php                                                              *
- ***********************************************************************************
- * SMF: Simple Machines Forum                                                      *
- * Open-Source Project Inspired by Zef Hemel (zef@zefhemel.com)                    *
- * =============================================================================== *
- * Software Version:           SMF Watermark.light 1.4                             *
- * Software by:                Digger                                              *
- * Support, News, Updates at:  http://www.simplemachines.ru                        *
- ***********************************************************************************/
+/**
+ * @package SMF Watermark.light
+ * @author digger http://mysmf.ru
+ * @copyright 2009-2016
+ * @license The MIT License (MIT)
+ * @version 1.6
+ */
+
+// TODO: add Aeva Media support
+// TODO: detect Aeva installed and show option to enable for aeva
 
 if (!defined('SMF')) {
     die('Hacking attempt...');
 }
 
+
+/**
+ * Try to detect animated gif
+ * @param $filename
+ * @return bool
+ */
 function detect_ani_gif($filename)
 {
     $filecontents = file_get_contents($filename);
@@ -44,6 +50,13 @@ function detect_ani_gif($filename)
     }
 }
 
+
+/**
+ * Watermark image
+ * @param $imagesource
+ * @param null $imagedest
+ * @return bool
+ */
 function watermark($imagesource, $imagedest = null)
 {
     global $modSettings, $boarddir;

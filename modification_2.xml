@@ -17,8 +17,34 @@
 
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 
-	<id>digger:Watermark.light</id>
-	<version>1.5</version>
+	<file name="$sourcedir/Display.php">
+
+		<operation>
+
+			<search position="replace"><![CDATA[	if (empty($modSettings['enableCompressedOutput']) || filesize($filename) > 4194304]]></search>
+
+			<add><![CDATA[	if ((empty($modSettings['enableCompressedOutput']) && empty($modSettings['watermarkEnabled'])) || filesize($filename) > 4194304]]></add>
+
+		</operation>
+
+		<operation>
+
+			<search position="after"><![CDATA[	// On some of the less-bright hosts, readfile() is disabled.  It's just a faster, more byte safe, version of what's in the if.]]></search>
+
+			<add><![CDATA[
+  // * Watermark Mod by Digger
+  elseif (!empty($modSettings['watermarkEnabled']) && !isset($callback))
+  {
+    include_once($sourcedir . '/Mod-Watermark.light.php');
+    if (!@watermark($filename)) if (@readfile($filename) == null) echo file_get_contents($filename);
+  }
+  // Watermark Mod by Digger *
+
+]]></add>
+
+		</operation>
+
+	</file>
 
 	<file name="$sourcedir/Admin.php">
 
@@ -55,7 +81,8 @@
 function ModifyWatermarkSettings($return_config = false)
 {
 	global $db_prefix, $boarddir, $scripturl, $context, $settings, $sc, $sourcedir, $modSettings, $txt;
-  include_once($sourcedir.'/Subs-Watermark.light.php');
+  include_once($sourcedir.'/Mod-Watermark.light.php');
+  loadLanguage('Watermark.light/');
 
   // get list of files in logo dir
   if ($handle = @opendir($boarddir.'/Watermark/Logo'))
