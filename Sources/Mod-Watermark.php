@@ -133,7 +133,7 @@ function watermark($imagesource, $imagedest = null)
     $imageheight = imagesy($image);
 
     // if image too small, skip it
-    if ($imagewidth <= $modSettings['watermarkMaxWidth'] and $imageheight <= $modSettings['watermarkMaxHeight']) {
+    if ($imagewidth < $modSettings['watermarkMaxWidth'] and $imageheight < $modSettings['watermarkMaxHeight']) {
         return false;
     }
 
