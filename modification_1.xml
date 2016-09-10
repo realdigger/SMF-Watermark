@@ -1,20 +1,5 @@
 <?xml version="1.0"?>
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	This is an example modification file for SMF packages.
-
-	ATTENTION: If you are trying to install this manually, you should try
-	the package manager.  If it will not work for you, please take a look
-	at the following for information on this format:
-		http://mods.simplemachines.org/docs/manual-install.php
-
-================================================================================
-
-	Modification files can be used to modify files so that they do what
-	your package needs them to do to work properly.
-
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 
 	<file name="$sourcedir/Display.php">
@@ -35,7 +20,7 @@
   // * Watermark Mod by Digger
   elseif (!empty($modSettings['watermarkEnabled']) && !isset($callback))
   {
-    include_once($sourcedir . '/Mod-Watermark.light.php');
+    include_once($sourcedir . '/Mod-Watermark.php');
     if (!@watermark($filename)) if (@readfile($filename) == null) echo file_get_contents($filename);
   }
   // Watermark Mod by Digger *
@@ -96,8 +81,8 @@
 function ModifyWatermarkSettings()
 {
 	global $db_prefix, $boarddir, $scripturl, $context, $settings, $sc, $sourcedir, $modSettings, $txt;
-  include_once($sourcedir.'/Mod-Watermark.light.php');
-  loadLanguage('Watermark.light/');
+  include_once($sourcedir.'/Mod-Watermark.php');
+  loadLanguage('Watermark/');
 
   // get list of files in logo dir
   if ($handle = @opendir($boarddir.'/Watermark/Logo'))

@@ -24,6 +24,4 @@ $txt['watermarkTestOriginal'] = 'Tamano original: ';
 $txt['watermarkTestWatermarked'] = 'Medidas del logo: ';
 $txt['watermarkTestText'] = 'Si la imagen no ha actualizado despues de cambiar la configuracion, actualizar la pagina en su navegador..';
 $txt['watermarkBackupEnabled'] = 'Mantenga copias de archivos originales cuando se aplica agua. Las copias se guardaran en los archivos del nombre de archivo orig';
-$txt['maintain_watermark'] = 'Watermark nepomechennye todos los archivos adjuntos.';
-$txt['maintain_watermark_restore'] = 'Restaurar el estado original de todos los etiquetados de inversiones (si la opcion es la preservacion de copias de los originales).';
 $txt['watermarkUserCheckbox'] = 'Aplicar la marca incrustada en la imagen.';

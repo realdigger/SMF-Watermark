@@ -1,20 +1,5 @@
 <?xml version="1.0"?>
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	This is an example modification file for SMF packages.
-
-	ATTENTION: If you are trying to install this manually, you should try
-	the package manager.  If it will not work for you, please take a look
-	at the following for information on this format:
-		http://mods.simplemachines.org/docs/manual-install.php
-
-================================================================================
-
-	Modification files can be used to modify files so that they do what
-	your package needs them to do to work properly.
-
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 
 	<file name="$sourcedir/Display.php">
@@ -24,112 +9,19 @@
 			<search position="after"><![CDATA[	// On some of the less-bright hosts, readfile() is disabled.  It's just a faster, more byte safe, version of what's in the if.]]></search>
 
 			<add><![CDATA[
-  // * Watermark Mod by Digger
+  // * Watermark Mod by digger
   elseif (!empty($modSettings['watermarkEnabled']) && !isset($callback))
   {
     global $sourcedir;
-    include_once($sourcedir . '/Mod-Watermark.light.php');
+    include_once($sourcedir . '/Mod-Watermark.php');
     if (!@watermark($filename)) if (@readfile($filename) == null) echo file_get_contents($filename);
   }
-  // Watermark Mod by Digger *
+  // Watermark Mod by digger *
 
 ]]></add>
 
 		</operation>
 
 	</file>
-
-	<file name="$sourcedir/Admin.php">
-
-		<operation>
-
-			<search position="before"><![CDATA[						// 'shout' => array($txt['shout']),
-]]></search>
-
-			<add><![CDATA[						'watermark' => array($txt['watermark']),
-]]></add>
-
-		</operation>
-
-	</file>
-
-	<file name="$sourcedir/ManageSettings.php">
-
-		<operation>
-
-			<search position="before"><![CDATA[		// Mod authors, once again, if you have a whole section to add do it AFTER this line, and keep a comma at the end.
-]]></search>
-
-			<add><![CDATA[ 		'watermark' => 'ModifyWatermarkSettings',
-]]></add>
-
-    </operation>
-
-    <operation>
-
-   	<search position="end" />
-
-			<add><![CDATA[
-// * Watermark Mod by Digger
-function ModifyWatermarkSettings($return_config = false)
-{
-	global $db_prefix, $boarddir, $scripturl, $context, $settings, $sc, $sourcedir, $modSettings, $txt;
-  include_once($sourcedir.'/Mod-Watermark.light.php');
-  loadLanguage('Watermark.light/');
-
-  // get list of files in logo dir
-  if ($handle = @opendir($boarddir.'/Watermark/Logo'))
-  {
-    while (false !== ($file = @readdir($handle))) {
-      if ($file != "." && $file != "..")
-        {
-          $logos[$file] = $file;
-        }
-    }
-    closedir($handle);
-  }
-
-	$config_vars = array(
-			array('check', 'watermarkEnabled'),
-      '',
- 			array('select', 'watermarkImage', $logos),
-      '',
-      array('int', 'watermarkMaxHeight'),
-      array('int', 'watermarkMaxWidth'),
-			array('int', 'watermarkTransparency'),
-			array('int', 'watermarkJpegQuality'),
-      '',
-      array('int', 'watermarkBorder'),
-      array('select', 'watermarkPosition', array(&$txt['watermarkPositionTopLeft'], &$txt['watermarkPositionTopRight'], &$txt['watermarkPositionBottomLeft'], &$txt['watermarkPositionBottomRight'], &$txt['watermarkPositionCenter'])),
-      '',
-      $txt['watermarkLogoTitle'] . '<br /><img src="Watermark/Logo/' . $modSettings['watermarkImage'] .'" alt="" />', '', $txt['watermarkTestTitle'] . '<br /><img src="Watermark/watermark_demo_2.jpg?' . time() . '" alt="" /><br /><br />' . $txt['watermarkTestText'],
-      '');
-
-	if ($return_config)
-		return $config_vars;
-
-	if (isset($_GET['save']))
-	{
-		checkSession();
-
-		saveDBSettings($config_vars);
-		writeLog();
-		watermark($boarddir . '/Watermark/watermark_demo.jpg', $boarddir . '/Watermark/watermark_demo_2.jpg');
-
-		redirectexit('action=admin;area=modsettings;sa=watermark');
-	}
-
-	$context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=watermark';
-	$context['settings_title'] = $txt['watermark'];
-
-	prepareDBSettingContext($config_vars);
-
-}
-// Watermark Mod by Digger *
-]]></add>
-
-    </operation>
-
-  </file>
 
 </modification>

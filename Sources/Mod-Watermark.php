@@ -1,6 +1,6 @@
 <?php
 /**
- * @package SMF Watermark.light
+ * @package SMF Watermark
  * @author digger http://mysmf.ru
  * @copyright 2009-2016
  * @license The MIT License (MIT)
@@ -14,6 +14,16 @@ if (!defined('SMF')) {
     die('Hacking attempt...');
 }
 
+
+/**
+ * Load all needed hooks
+ */
+function loadWatermarkHooks()
+{
+    add_integration_function('integrate_admin_areas', 'addWatermarkAdminArea', false);
+    add_integration_function('integrate_modify_modifications', 'addWatermarkAdminAction', false);
+    add_integration_function('integrate_menu_buttons', 'addWatermarkCopyright', false);
+}
 
 /**
  * Try to detect animated gif
@@ -123,7 +133,7 @@ function watermark($imagesource, $imagedest = null)
     $imageheight = imagesy($image);
 
     // if image too small, skip it
-    if ($imagewidth < $modSettings['watermarkMaxWidth'] and $imageheight < $modSettings['watermarkMaxHeight']) {
+    if ($imagewidth <= $modSettings['watermarkMaxWidth'] and $imageheight <= $modSettings['watermarkMaxHeight']) {
         return false;
     }
 
@@ -201,6 +211,110 @@ function watermark($imagesource, $imagedest = null)
         return true;
     } else {
         return false;
+    }
+}
+
+
+/**
+ * Add mod admin area
+ * @param $admin_areas
+ */
+function addWatermarkAdminArea(&$admin_areas)
+{
+    global $txt;
+    loadLanguage('Watermark/');
+
+    $admin_areas['config']['areas']['modsettings']['subsections']['watermark'] = array($txt['watermark']);
+}
+
+
+/**
+ * Add mod admin action
+ * @param $subActions
+ */
+function addWatermarkAdminAction(&$subActions)
+{
+    $subActions['watermark'] = 'addWatermarkAdminSettings';
+}
+
+
+/**
+ * Add admin mod settings
+ * @param bool $return_config
+ * @return array
+ */
+function addWatermarkAdminSettings($return_config = false)
+{
+    global $boarddir, $scripturl, $context, $sourcedir, $modSettings, $txt;
+    include_once($sourcedir . '/Mod-Watermark.php');
+    loadLanguage('Watermark/');
+
+    // get list of files in logo dir
+    if ($handle = @opendir($boarddir . '/Watermark/Logo')) {
+        while (false !== ($file = @readdir($handle))) {
+            if ($file != "." && $file != "..") {
+                $logos[$file] = $file;
+            }
+        }
+        closedir($handle);
+    }
+
+    $context['page_title'] = $context['settings_title'] = $txt['watermark'];
+    $context['post_url'] = $scripturl . '?action=admin;area=modsettings;save;sa=watermark';
+
+    $config_vars = array(
+        array('check', 'watermarkEnabled'),
+        '',
+        array('select', 'watermarkImage', $logos),
+        '',
+        array('int', 'watermarkMaxHeight'),
+        array('int', 'watermarkMaxWidth'),
+        array('int', 'watermarkTransparency'),
+        array('int', 'watermarkJpegQuality'),
+        '',
+        array('int', 'watermarkBorder'),
+        array(
+            'select',
+            'watermarkPosition',
+            array(
+                &$txt['watermarkPositionTopLeft'],
+                &$txt['watermarkPositionTopRight'],
+                &$txt['watermarkPositionBottomLeft'],
+                &$txt['watermarkPositionBottomRight'],
+                &$txt['watermarkPositionCenter']
+            ),
+        ),
+        '',
+        $txt['watermarkLogoTitle'] . '<br /><img src="Watermark/Logo/' . $modSettings['watermarkImage'] . '" alt="" />',
+        '',
+        $txt['watermarkTestTitle'] . '<br /><img src="Watermark/watermark_demo_2.jpg?' . time() . '" alt="" /><br /><br />' . $txt['watermarkTestText'],
+        ''
+    );
+
+    if ($return_config) {
+        return $config_vars;
+    }
+
+    if (isset($_GET['save'])) {
+        checkSession();
+        saveDBSettings($config_vars);
+        watermark($boarddir . '/Watermark/watermark_demo.jpg', $boarddir . '/Watermark/watermark_demo_2.jpg');
+        redirectexit('action=admin;area=modsettings;sa=watermark');
+    }
+
+    prepareDBSettingContext($config_vars);
+}
+
+
+/**
+ * Add mod copyrights to the credits page
+ */
+function addWatermarkCopyright()
+{
+    global $context;
+
+    if ($context['current_action'] == 'credits') {
+        $context['copyrights']['mods'][] = '<a href="http://mysmf.ru/mods/watermark" target="_blank">Watermark</a> &copy; 2009-2016, digger';
     }
 }
 

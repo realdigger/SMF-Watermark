@@ -1,4 +1,15 @@
 <?php
+/**
+ * @package SMF Watermark
+ * @author digger http://mysmf.ru
+ * @copyright 2009-2016
+ * @license The MIT License (MIT)
+ * @version 1.6
+ *
+ *
+ * To run this install manually please make sure you place this
+ * in the same place and SSI.php and index.php
+ */
 
 // SMF 2.x
 if (isset($smcFunc))
