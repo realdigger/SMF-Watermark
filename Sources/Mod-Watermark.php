@@ -287,8 +287,7 @@ function addWatermarkAdminSettings($return_config = false)
         '',
         $txt['watermarkLogoTitle'] . '<br /><img src="Watermark/Logo/' . $modSettings['watermarkImage'] . '" alt="" />',
         '',
-        $txt['watermarkTestTitle'] . '<br /><img src="Watermark/watermark_demo_2.jpg?' . time() . '" alt="" /><br /><br />' . $txt['watermarkTestText'],
-        ''
+        $txt['watermarkTestTitle'] . '<br /><img src="Watermark/watermark_demo_2.jpg?' . time() . '" alt="" /><br /><br />' . $txt['watermarkTestText']
     );
 
     if ($return_config) {
