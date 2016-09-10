@@ -28,6 +28,7 @@
         <redirect url="?action=admin;area=modsettings;sa=watermark"/>
     </install>
     <uninstall for="2.0 - 2.0.99">
+        <code>hooks.php</code>
         <modification reverse="true">modification_2.xml</modification>
         <remove-dir name="$languagedir/Watermark"/>
         <remove-file name="$sourcedir/Mod-Watermark.php"/>
@@ -42,6 +43,7 @@
         <redirect url="?action=admin;area=modsettings;sa=watermark"/>
     </install>
     <uninstall for="2.1 Beta 2, 2.1 Beta 3, 2.1 Beta 4, 2.1 - 2.1.99">
+        <code>hooks.php</code>
         <modification reverse="true">modification_2.1.xml</modification>
         <remove-dir name="$languagedir/Watermark"/>
         <remove-file name="$sourcedir/Mod-Watermark.php"/>
