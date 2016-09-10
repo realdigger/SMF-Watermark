@@ -4,7 +4,7 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
   <id>digger:Watermark.light</id>
   <name>Watermark.light</name>
-  <version>1.6</version>
+  <version>1.6.1</version>
   <type>modification</type>
   <install for="1.1.1 - 1.99.99">
     <database>install.php</database>

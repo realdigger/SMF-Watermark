@@ -1,0 +1,21 @@
+<?php
+$txt['watermark'] = 'Filigrane';
+$txt['watermarkEnabled'] = 'Autoriser le filigrane (pour JPG, GIF, PNG)';
+$txt['watermarkImage'] = 'Nom du fichier du filigrane. Les formats supportés sont GIF et PNG.<br />Télécharger votre filigrane dans le répertoire /Watermark/Logo.';
+$txt['watermarkTransparency'] = 'Opacité du filigrane (0-100). Valable uniquement pour les fichiers GIF.';
+$txt['watermarkJpegQuality'] = 'Qualité du Jpeg (0-100). Valeurs comprises entre 0 (mauvaise qualité, taille du fichier réduite) et 100 (meilleure qualité, taille du fichier importante).';
+$txt['watermarkPngCompression'] = 'Compression Png (0-9)';
+$txt['watermarkMaxHeight'] = 'Filigrane avec une hauteur de plus de (en pixels)';
+$txt['watermarkMaxWidth'] = 'Filigrane avec une largeur de plus de (pixels)';
+$txt['watermarkBorder'] = 'Espacement entre le filigrane et le bord de l\'image (en pixels)';
+$txt['watermarkPosition'] = 'Position du filigrane';
+$txt['watermarkPositionTopLeft'] = 'Coin supérieur gauche';
+$txt['watermarkPositionTopRight'] = 'Coin supérieur droit';
+$txt['watermarkPositionBottomLeft'] = 'Coin inférieur gauche';
+$txt['watermarkPositionBottomRight'] = 'Coin inférieur droit';
+$txt['watermarkPositionCenter'] = 'Centre';
+$txt['watermarkLogoTitle'] = 'Filigrane';
+$txt['watermarkTestTitle'] = 'Exemple de JPG';
+$txt['watermarkTestOriginal'] = 'Taille initiale: ';
+$txt['watermarkTestWatermarked'] = 'Taille avec le filigrane: ';
+$txt['watermarkTestText'] = 'Si l\'image de démonstration n\'est pas rafraîchie après le changement des paramètres,<br /> faites une mise à jour de la page dans votre navigateur.';
