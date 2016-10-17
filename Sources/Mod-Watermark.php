@@ -1,10 +1,11 @@
 <?php
 /**
  * @package SMF Watermark
- * @author digger http://mysmf.ru
- * @copyright 2009-2016
+ * @file Mod-Watermark.php
+ * @author digger @ http://mysmf.ru
+ * @copyright 2009-2016, digger
  * @license The MIT License (MIT)
- * @version 1.6
+ * @version 1.7
  */
 
 // TODO: add Aeva Media support
@@ -23,14 +24,34 @@ function loadWatermarkHooks()
     add_integration_function('integrate_admin_areas', 'addWatermarkAdminArea', false);
     add_integration_function('integrate_modify_modifications', 'addWatermarkAdminAction', false);
     add_integration_function('integrate_menu_buttons', 'addWatermarkCopyright', false);
+    //add_integration_function('integrate_menu_buttons', 'addWatermarkCheckbox', false);
+    add_integration_function('integrate_watermark_attachment', 'watermarkAttachment', false);
 }
+
+
+/**
+ * Add watermark checkbox for attachments
+ * @return bool
+ */
+function addWatermarkCheckbox()
+{
+    global $modSettings, $txt;
+
+    if (empty($modSettings['watermarkEnabled'])) {
+        return false;
+    }
+
+    $txt['clean_attach'] .= '</a>) (<input name="watermarked[]" type="checkbox" ' . (!empty($modSettings['watermarkUserChecked']) ? 'checked="checked"' : '') . ' /> ' . $txt['watermarkUserCheckbox'] . '<a href="#">';
+
+}
+
 
 /**
  * Try to detect animated gif
  * @param $filename
  * @return bool
  */
-function detect_ani_gif($filename)
+function detectAniGif($filename)
 {
     $filecontents = file_get_contents($filename);
     $str_loc = 0;
@@ -62,12 +83,12 @@ function detect_ani_gif($filename)
 
 
 /**
- * Watermark image
+ * Watermark attachment
  * @param $imagesource
  * @param null $imagedest
  * @return bool
  */
-function watermark($imagesource, $imagedest = null)
+function watermarkAttachment($imagesource, $imagedest = null)
 {
     global $modSettings, $boarddir;
     $result = false;
@@ -109,7 +130,7 @@ function watermark($imagesource, $imagedest = null)
     }
 
     // detect animated gif, exit if true
-    if (detect_ani_gif($imagesource)) {
+    if (detectAniGif($imagesource)) {
         return false;
     }
 
@@ -266,6 +287,15 @@ function addWatermarkAdminSettings($return_config = false)
         array('check', 'watermarkEnabled'),
         '',
         array('select', 'watermarkImage', $logos),
+        /* array('text', 'watermarkText'),
+        '',
+        array(
+            'permissions',
+            'change_watermark',
+            'label' => $txt['permissionname_change_watermark'],
+        ),
+        array('check', 'watermarkUserChecked'),
+        */
         '',
         array('int', 'watermarkMaxHeight'),
         array('int', 'watermarkMaxWidth'),
@@ -297,7 +327,7 @@ function addWatermarkAdminSettings($return_config = false)
     if (isset($_GET['save'])) {
         checkSession();
         saveDBSettings($config_vars);
-        watermark($boarddir . '/Watermark/watermark_demo.jpg', $boarddir . '/Watermark/watermark_demo_2.jpg');
+        watermarkAttachment($boarddir . '/Watermark/watermark_demo.jpg', $boarddir . '/Watermark/watermark_demo_2.jpg');
         redirectexit('action=admin;area=modsettings;sa=watermark');
     }
 

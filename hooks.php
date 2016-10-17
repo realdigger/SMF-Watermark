@@ -4,7 +4,7 @@
  * @author digger http://mysmf.ru
  * @copyright 2009-2016
  * @license The MIT License (MIT)
- * @version 1.6
+ * @version 1.7
  *
  *
  * To run this install manually please make sure you place this

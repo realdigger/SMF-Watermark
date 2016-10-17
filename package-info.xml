@@ -40,19 +40,35 @@
         <remove-file name="$sourcedir/Mod-Watermark.php"/>
         <remove-file name="$sourcedir/Class-SimpleImage.php"/>
     </uninstall>
-    <install for="2.1 Beta 2, 2.1 Beta 3, 2.1 Beta 4, 2.1 - 2.1.99">
+    <install for="2.1 Beta 2">
         <readme>README.md</readme>
         <database>install.php</database>
         <code>hooks.php</code>
-        <modification>modification_2.1.xml</modification>
+        <modification>modification_2.1b2.xml</modification>
         <require-dir name="Themes" destination="$boarddir"/>
         <require-dir name="Sources" destination="$boarddir"/>
         <require-dir name="Watermark" destination="$boarddir"/>
         <redirect url="?action=admin;area=modsettings;sa=watermark"/>
     </install>
-    <uninstall for="2.1 Beta 2, 2.1 Beta 3, 2.1 Beta 4, 2.1 - 2.1.99">
+    <uninstall for="2.1 Beta 2">
         <code>hooks.php</code>
-        <modification reverse="true">modification_2.1.xml</modification>
+        <modification reverse="true">modification_2.1b2.xml</modification>
+        <remove-dir name="$languagedir/Watermark"/>
+        <remove-file name="$sourcedir/Mod-Watermark.php"/>
+    </uninstall>
+    <install for="2.1 Beta 3">
+        <readme>README.md</readme>
+        <database>install.php</database>
+        <code>hooks.php</code>
+        <modification>modification_2.1b3.xml</modification>
+        <require-dir name="Themes" destination="$boarddir"/>
+        <require-dir name="Sources" destination="$boarddir"/>
+        <require-dir name="Watermark" destination="$boarddir"/>
+        <redirect url="?action=admin;area=modsettings;sa=watermark"/>
+    </install>
+    <uninstall for="2.1 Beta 3">
+        <code>hooks.php</code>
+        <modification reverse="true">modification_2.1b3.xml</modification>
         <remove-dir name="$languagedir/Watermark"/>
         <remove-file name="$sourcedir/Mod-Watermark.php"/>
     </uninstall>

@@ -21,7 +21,7 @@
   elseif (!empty($modSettings['watermarkEnabled']) && !isset($callback))
   {
     include_once($sourcedir . '/Mod-Watermark.php');
-    if (!@watermark($filename)) if (@readfile($filename) == null) echo file_get_contents($filename);
+    if (!@watermarkAttachment($filename)) if (@readfile($filename) == null) echo file_get_contents($filename);
   }
   // Watermark Mod by Digger *
 

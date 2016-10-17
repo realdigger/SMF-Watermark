@@ -2,6 +2,7 @@
 $txt['watermark'] = 'Watermark';
 $txt['watermarkEnabled'] = 'Enable watermark (for JPG, GIF, PNG)';
 $txt['watermarkImage'] = 'Watermark filename. Supported formats are GIF and PNG.<br />Upload your watermark files into the directory /Watermark/Logo.';
+$txt['watermarkText'] = 'Use text watermark';
 $txt['watermarkTransparency'] = 'Watermark opacity (0-100). Only for GIF watermark.';
 $txt['watermarkJpegQuality'] = 'Jpeg quality (0-100). Ranges from 0 (worst quality, smaller file) to 100 (best quality, biggest file).';
 $txt['watermarkPngCompression'] = 'Png compression(0-9)';

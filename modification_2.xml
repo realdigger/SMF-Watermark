@@ -20,7 +20,7 @@
   // * Watermark Mod by Digger
   elseif (!empty($modSettings['watermarkEnabled']) && !isset($callback))
   {
-    if (!@watermark($filename)) if (@readfile($filename) == null) echo file_get_contents($filename);
+    if (!@call_integration_hook('integrate_watermark_attachment', array($filename))) if (@readfile($filename) == null) echo file_get_contents($filename);
   }
   // Watermark Mod by Digger *
 

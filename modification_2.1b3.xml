@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+
+	<file name="$sourcedir/ShowAttachments.php">
+
+		<operation>
+
+			<search position="after"><![CDATA[	// On some of the less-bright hosts, readfile() is disabled.  It's just a faster, more byte safe, version of what's in the if.]]></search>
+
+			<add><![CDATA[
+  // * Watermark Mod by digger
+  elseif (!empty($modSettings['watermarkEnabled']) && !isset($callback))
+  {
+    if (!@call_integration_hook('integrate_watermark_attachment', array($file['filePath']))) if (@readfile($file['filePath']) == null) echo file_get_contents($file['filePath']);
+  }
+  // Watermark Mod by digger *
+
+]]></add>
+
+		</operation>
+
+	</file>
+
+</modification>
