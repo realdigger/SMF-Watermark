@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
-    <id>digger:Watermark</id>
+    <id>digger:Watermark.light</id>
     <name>Watermark</name>
-    <version>1.6.3</version>
+    <version>1.6.4</version>
     <type>modification</type>
     <install for="1.1.1 - 1.99.99">
         <database>install.php</database>
