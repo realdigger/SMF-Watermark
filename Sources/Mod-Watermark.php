@@ -2,7 +2,7 @@
 /**
  * @package SMF Watermark
  * @author digger http://mysmf.ru
- * @copyright 2009-2016
+ * @copyright 2009-2024
  * @license The MIT License (MIT)
  * @version 1.6
  */
@@ -313,7 +313,7 @@ function addWatermarkCopyright()
     global $context;
 
     if ($context['current_action'] == 'credits') {
-        $context['copyrights']['mods'][] = '<a href="http://mysmf.ru/mods/watermark" target="_blank">Watermark</a> &copy; 2009-2016, digger';
+        $context['copyrights']['mods'][] = '<a href="https://mysmf.net/mods/watermark" target="_blank">Watermark</a> &copy; 2009-2024, digger';
     }
 }
 
